@@ -74,7 +74,7 @@ Returns a sorted array of all the builtin module `require()` durations in descen
   - `ph` (**string**) - The event type.
   - `pid` (**number**) - The process ID.
   - `ts` (**number**) - The tracing clock timestamp of the event.
-  - `dur` (**number**) - The duration of `require()` on the module in milliseconds.
+  - `dur` (**number**) - The duration of `require()` on the module in microseconds.
 
 Converts the sorted array of all the builtin module `require()` durations into Chrome's [Trace Event Format](https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview#heading=h.yr4qxyxotyw), so that it can be viewed on <https://ui.perfetto.dev>.
 

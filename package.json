@@ -13,6 +13,7 @@
     "url": "git+ssh://git@github.com/RaisinTen/breqd.git"
   },
   "keywords": [
+    "performance",
     "builtin",
     "modules",
     "require",

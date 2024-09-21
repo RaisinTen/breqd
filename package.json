@@ -8,6 +8,13 @@
   "scripts": {
     "test": "tsd && node --test"
   },
+  "files": [
+    "LICENSE",
+    "bin.js",
+    "breqd.js",
+    "README.md",
+    "breqd.d.ts"
+  ],
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/RaisinTen/breqd.git"

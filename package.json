@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "Builtin modules REQuire Duration",
   "main": "breqd.js",
+  "types": "breqd.d.ts",
+  "bin": "./bin.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -6,7 +6,7 @@
   "types": "breqd.d.ts",
   "bin": "./bin.js",
   "scripts": {
-    "test": "node --test"
+    "test": "tsd && node --test"
   },
   "repository": {
     "type": "git",
@@ -25,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/RaisinTen/breqd/issues"
   },
-  "homepage": "https://github.com/RaisinTen/breqd#readme"
+  "homepage": "https://github.com/RaisinTen/breqd#readme",
+  "devDependencies": {
+    "tsd": "^0.31.2"
+  }
 }

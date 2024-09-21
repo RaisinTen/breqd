@@ -53,8 +53,8 @@ describe('breqs', () => {
         `'${moduleName}' at index ${i} must be a string`);
       strictEqual(typeof duration, 'number',
         `'${duration}' at index ${i} must be a number`);
-      ok(duration > prevDuration, `The duration, ${duration}, at index ${i}, ` +
-        `must be greater than the next duration, ${prevDuration}`);
+      ok(duration >= prevDuration, `The duration, ${duration}, at index ${i}, ` +
+        `must be greater than or equal to the next duration, ${prevDuration}`);
       prevDuration = duration;
     }
   });

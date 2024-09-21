@@ -1,7 +1,7 @@
 {
   "name": "breqd",
   "version": "1.0.0",
-  "description": "Builtin modules REQuire Duration",
+  "description": "Builtin modules REQuire Durations",
   "main": "breqd.js",
   "types": "breqd.d.ts",
   "bin": "./bin.js",

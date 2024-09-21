@@ -3,7 +3,7 @@ export interface ModuleDurationsMap {
 }
 
 export interface ModuleDuration {
-  module: string;
+  moduleName: string;
   duration: number;
 }
 

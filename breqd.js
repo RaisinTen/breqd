@@ -43,17 +43,17 @@ function getModuleDurations() {
 function sortModuleDurations(moduleDurations) {
   // Converting the moduleDurations into a list.
   const sortedModuleDurations = [];
-  for (const module of Object.keys(moduleDurations)) {
-    if (typeof module !== 'string') {
-      throw new TypeError(`The key, ${module}, must be a string`);
+  for (const moduleName of Object.keys(moduleDurations)) {
+    if (typeof moduleName !== 'string') {
+      throw new TypeError(`The key, ${moduleName}, must be a string`);
     }
 
-    const duration = moduleDurations[module];
+    const duration = moduleDurations[moduleName];
     if (typeof duration !== 'number') {
       throw new TypeError(`The value, ${duration}, must be a number`);
     }
 
-    sortedModuleDurations.push({ module, duration });
+    sortedModuleDurations.push({ moduleName, duration });
   }
 
   // Sorting the entries by descending order of durations.
@@ -91,9 +91,9 @@ function convertModuleDurationstoTEF(moduleDurations) {
       throw new TypeError(`moduleDurations[${i}] must be an object`);
     }
 
-    const { module, duration } = moduleDuration;
-    if (typeof module !== 'string') {
-      throw new TypeError(`moduleDurations[${i}].module must be a string`);
+    const { moduleName, duration } = moduleDuration;
+    if (typeof moduleName !== 'string') {
+      throw new TypeError(`moduleDurations[${i}].moduleName must be a string`);
     }
 
     if (typeof duration !== 'number') {
@@ -101,7 +101,7 @@ function convertModuleDurationstoTEF(moduleDurations) {
     }
 
     TEF.push({
-      name: module,
+      name: moduleName,
       cat: 'measure',
       ph: 'X',
       pid: 1,

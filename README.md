@@ -1,12 +1,12 @@
 # breqd
 
-**B**uiltin module **REQ**uire **D**urations.
+**B**uiltin modules **REQ**uire **D**urations
 
 This library measures the duration of `require()` on Node.js' builtin modules.
 
 ## Usage
 
-### CLI
+### CLI usage
 
 ```js
 $ npx breqd
@@ -31,12 +31,11 @@ import {
   ModuleDuration,
   getModuleDurations,
   sortModuleDurations,
-} from '.';
+} from 'breqd';
 
 const moduleDurations: ModuleDurationsMap = getModuleDurations();
 
-const sortedModuleDurations: ModuleDuration[] =
-  sortModuleDurations(moduleDurations);
+const sortedModuleDurations: ModuleDuration[] = sortModuleDurations(moduleDurations);
 
 console.log(sortedModuleDurations);
 // [
@@ -46,3 +45,39 @@ console.log(sortedModuleDurations);
 //   ...
 // ]
 ```
+
+## API
+
+### `getModuleDurations()`
+
+- Returns `ModuleDurationsMap`:
+  - `index` (**string**) - The module name.
+  - value (**number**) - The duration of `require()` on the module in nanoseconds.
+
+Measures the duration of `require()` on all builtin modules of the running Node.js process and returns it.
+
+### `sortModuleDurations()`
+
+- `moduleDurations` (**ModuleDurationsMap**) - The module-duration object from `getModuleDurations()`.
+- Returns `ModuleDuration[]`:
+  - `moduleName` (**string**) - The module name.
+  - `duration` (**number**) - The duration of `require()` on the module in nanoseconds.
+
+Returns a sorted array of all the builtin module `require()` durations in descending order of durations.
+
+### `convertModuleDurationstoTEF()`
+
+- `moduleDurations` (**ModuleDuration[]**) - The module-duration object from `sortModuleDurations()`.
+- Returns `TEF[]`:
+  - `name` (**string**) - The builtin module name.
+  - `cat` (**string**) - The event category.
+  - `ph` (**string**) - The event type.
+  - `pid` (**number**) - The process ID.
+  - `ts` (**number**) - The tracing clock timestamp of the event.
+  - `dur` (**number**) - The duration of `require()` on the module in milliseconds.
+
+Converts the sorted array of all the builtin module `require()` durations into Chrome's [Trace Event Format](https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview#heading=h.yr4qxyxotyw), so that it can be viewed on <https://ui.perfetto.dev>.
+
+## License
+
+[MIT](LICENSE)

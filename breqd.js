@@ -1,4 +1,8 @@
-function getBuiltinModulesList(Module) {
+const Module = require('module');
+const path = require('path');
+const { spawnSync } = require('child_process');
+
+function getBuiltinModulesList() {
   // Getting a list of all the builtin modules.
   const builtinModules = [...Module.builtinModules];
 
@@ -13,28 +17,51 @@ function getBuiltinModulesList(Module) {
   return builtinModules;
 }
 
+function getModuleDuration(moduleName) {
+  const script = path.join(__dirname, 'script.js');
+
+  // Needs to be synchronous, otherwise the results are very flaky.
+  const child = spawnSync(
+    process.execPath,
+    [ '--no-warnings', script, moduleName ]);
+
+  if (child.status !== 0 || child.signal !== null) {
+    throw new Error(`child exited with signal: ${child.signal}, code: ${child.status}, stderr: ${child.stderr}`);
+  }
+
+  const output = child.stderr.toString().trim().replace(/[^0-9]/g, "");
+  if (output.length === 0) {
+    throw new Error('no output');
+  }
+
+  const duration = Number(output);
+  if (!Number.isSafeInteger(duration)) {
+    throw new Error(`'${moduleName}' '${output}' got converted into ${duration} which is not a safe integer`);
+  }
+
+  return duration;
+}
+
+function getModuleDurationAverage(moduleName, cycles = 5) {
+  // Calculating the moving average because the duration sums might become too large.
+  // Refs: https://math.stackexchange.com/a/4456455
+  let averageDuration = 0;
+  for (let cycle = 0; cycle < cycles; ++cycle) {
+    const duration = getModuleDuration(moduleName);
+    averageDuration = averageDuration * (cycle / (cycle + 1)) + duration / (cycle + 1);
+  }
+  return averageDuration;
+}
+
 function getModuleDurations() {
   const moduleDurations = {};
 
-  // Measuring the duration of requiring the 'node:module' module.
-  const beforeRequiringModule = process.hrtime.bigint(); // Time is in nanoseconds.
-  const Module = require('module');
-  const afterRequiringModule = process.hrtime.bigint();
-  // Converting the durations to Number because these aren't that big.
-  moduleDurations['module'] = Number(afterRequiringModule - beforeRequiringModule);
-
   // Getting a list of all the builtin modules.
-  const builtinModules = getBuiltinModulesList(Module);
+  const builtinModules = getBuiltinModulesList();
 
   // Measuring the duration of requiring the builtin modules.
   for (const builtinModule of builtinModules) {
-    // This has already been measured.
-    if (builtinModules === 'module') continue;
-
-    const beforeRequiring = process.hrtime.bigint();
-    require(builtinModule);
-    const afterRequiring = process.hrtime.bigint();
-    moduleDurations[builtinModule] = Number(afterRequiring - beforeRequiring);
+    moduleDurations[builtinModule] = getModuleDurationAverage(builtinModule);
   }
 
   return moduleDurations;

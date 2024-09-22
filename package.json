@@ -13,7 +13,8 @@
     "bin.js",
     "breqd.js",
     "README.md",
-    "breqd.d.ts"
+    "breqd.d.ts",
+    "script.js"
   ],
   "repository": {
     "type": "git",
